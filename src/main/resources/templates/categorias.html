@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/fragmentos :: headHeader('Pessoas')}"></head>
+
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragment/fragmentos :: navi}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{fragment/fragmentos :: layoutSidenav_nav}"></div>
+
+    <!-- Início bloco da pagina -->
+    <div id="layoutSidenav_content">
+        <main >
+            <div class="container-fluid px-4">
+                <h2 class="mt-4">Categorias</h2>
+                <div class="card mb-4" style="margin-top: 10px">
+                    <div class="card-header" >
+                        <div class="row" >
+                            <div class="col-6 col-sm-6" >
+                                <i class="fas fa-table me-1"></i>
+                                Lista de categorias
+                            </div>
+                            <div class="col-6 col-sm-6" style="text-align: right">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    + Nova categoria
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div th:replace="alert/alert :: alerta-sucesso"></div>
+                    <div class="card-body">
+                        <table id="datatablesSimple" class="tabela">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th width="120"></th>
+                                <th width="120"></th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Nome</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="categoria: ${categorias}">
+                                <td th:text="${categoria.nome}">Trident</td>
+                                <td>
+                                    <a class="nav-link edit" id="edit" th:href="@{/categorias/getOne/(codigo=${categoria.codigo})}">
+                                        <div class="sb-nav-link-icon">
+                                            <i style="color: #0D6094FF; font-size: 17px" class="bi bi-pencil-square"
+                                               data-bs-toggle="modal" data-bs-target="#modalCabecalhoEdit"></i>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="nav-link " th:href="@{/categorias/delete/(codigo=${categoria.codigo})}">
+                                        <div class="sb-nav-link-icon" >
+                                            <i style="color: red;  font-size: 17px" class="color fas fa-trash"></i>
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragment/fragmentos :: footer}"></footer>
+    </div><!-- Início bloco da pagina -->
+</div>
+<!-- Modal Nova Categoria-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cadastrar Categoria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/categorias}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="nome" class="form-label">Nome da Categoria:</label>
+                                <input id="nome" type="text" class="form-control"  name="nome" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- final modal -->
+
+<!-- Modal editar biblioteca-->
+<div class="modal fade" id="modalCabecalhoEdit" tabindex="-1" aria-labelledby="exampleModalLabelEdit" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelEdit">Editar Categoria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/categorias/update}" method="put" >
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6 oculte">
+                            <div class="form-group " >
+                                <label for="codigo_update" class="form-label">ID:</label>
+                                <input type="text" id="codigo_update" class="form-control disabled" name="codigo">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="nome_update" class="form-label">Nome da Categoria:</label>
+                                <input type="text" id="nome_update" class="form-control" name="nome" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- final modal -->
+
+<div th:replace="~{fragment/fragmentos :: scripts}"></div><!-- SCRIPTS JS -->
+
+</body>
+<script>
+    function aplicarEventModal() {
+        $('.tabela .edit').on('click', function (event) {
+            event.preventDefault();
+            let href = $(this).attr('href');
+            $.get(href, function (categoria, status) {
+                $('#codigo_update').val(categoria.codigo);
+                $('#nome_update').val(categoria.nome);
+            });
+        });
+    }
+    $('document').ready(function () {
+        aplicarEventModal();
+        window.dataTable.on('datatable.page', function(page) {
+            aplicarEventModal();
+        });
+
+        window.dataTable.on("datatable.sort", function (page) {
+            aplicarEventModal();
+        })
+    });
+</script>
+</html>

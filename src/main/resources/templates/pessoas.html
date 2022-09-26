@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/fragmentos :: headHeader('Pessoas')}"></head>
+
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragment/fragmentos :: navi}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{fragment/fragmentos :: layoutSidenav_nav}"></div>
+
+    <!-- Início bloco da pagina -->
+    <div id="layoutSidenav_content">
+        <main >
+            <div class="container-fluid px-4">
+                <h2 class="mt-4">Pessoas</h2>
+                <div class="card mb-4" style="margin-top: 10px">
+                    <div class="card-header" >
+                        <div class="row" >
+                            <div class="col-6 col-sm-6" >
+                                <i class="fas fa-table me-1"></i>
+                                Lista de pessoas
+                            </div>
+                            <div class="col-6 col-sm-6" style="text-align: right">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    + Nova Pessoa
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple" class="tabela">
+                            <thead>
+                            <tr>
+                                <th width="120">ID</th>
+                                <th>NOME</th>
+                                <th width="120"></th>
+                                <th width="120"></th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>NOME</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <tr th:each="pessoa: ${pessoas}">
+                                <td th:text="${pessoa.codigo}">Trident</td>
+                                <td th:text="${pessoa.nome}">Trident</td>
+                                <td>
+                                    <a class="nav-link edit" id="edit" th:href="@{/pessoas/getOne/(codigo=${pessoa.codigo})}">
+                                        <div class="sb-nav-link-icon">
+                                            <i style="color: #0D6094FF; font-size: 17px" class="bi bi-pencil-square"
+                                               data-bs-toggle="modal" data-bs-target="#modalPessoaUpdate"></i>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="nav-link " th:href="@{/pessoas/delete/(codigo=${pessoa.codigo})}">
+                                        <div class="sb-nav-link-icon" >
+                                            <i style="color: red;  font-size: 17px" class="color fas fa-trash"></i>
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="~{fragment/fragmentos :: footer}"></footer>
+    </div><!-- Início bloco da pagina -->
+</div>
+<!-- Modal Novo Equipamento-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cadastro de Pessoa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/pessoas}" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="nome" class="form-label">Nome:</label>
+                                <input id="nome" type="text" class="form-control" name="nome" required>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="logradouro" class="form-label">Logradouro:</label>
+                                <input type="text" id="logradouro" class="form-control" name="endereco.logradouro"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="numero" class="form-label">Número:</label>
+                                <input type="text" id="numero" class="form-control" name="endereco.numero"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="complemento" class="form-label">Complemento:</label>
+                                <input id="complemento" type="text" class="form-control" name="endereco.complemento" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="bairro" class="form-label">Bairro:</label>
+                                <input type="text" id="bairro" class="form-control" name="endereco.bairro"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="cep" class="form-label">CEP:</label>
+                                <input type="text" id="cep" class="form-control" name="endereco.cep"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="cidade" class="form-label">Cidade:</label>
+                                <input id="cidade" type="text" class="form-control" name="endereco.cidade" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="estado" class="form-label">Estado:</label>
+                                <input id="estado" type="text" class="form-control" name="endereco.estado" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- final modal -->
+
+<!-- Modal editar equipamento-->
+<div class="modal fade" id="modalPessoaUpdate" tabindex="-1" aria-labelledby="exampleModalLabelEdit" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabelEdit">Editar dados</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/pessoas/update}" method="put" >
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12" style="display: none">
+                            <div class="form-group">
+                                <label for="codigo_update" class="form-label">id:</label>
+                                <input id="codigo_update" type="text" class="form-control" name="codigo" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="nome_update" class="form-label">Nome:</label>
+                                <input id="nome_update" type="text" class="form-control" name="nome" required>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="logradouro_update" class="form-label">Logradouro:</label>
+                                <input type="text" id="logradouro_update" class="form-control" name="endereco.logradouro"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="numero_update" class="form-label">Número:</label>
+                                <input type="text" id="numero_update" class="form-control" name="endereco.numero"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="complemento_update" class="form-label">Complemento:</label>
+                                <input id="complemento_update" type="text" class="form-control" name="endereco.complemento" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="bairro_update" class="form-label">Bairro:</label>
+                                <input type="text" id="bairro_update" class="form-control" name="endereco.bairro"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="cep_update" class="form-label">CEP:</label>
+                                <input type="text" id="cep_update" class="form-control" name="endereco.cep"  required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="cidade_update" class="form-label">Cidade:</label>
+                                <input id="cidade_update" type="text" class="form-control" name="endereco.cidade" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="estado_update" class="form-label">Estado:</label>
+                                <input id="estado_update" type="text" class="form-control" name="endereco.estado" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- final modal -->
+<div th:replace="~{fragment/fragmentos :: scripts}"></div><!-- SCRIPTS JS -->
+</body>
+<script>
+    function aplicarEventModal() {
+        $('.tabela .edit').on('click', function (event) {
+            event.preventDefault();
+            let href = $(this).attr('href');
+            $.get(href, function (pessoa, status) {
+                $('#codigo_update').val(pessoa.codigo);
+                $('#nome_update').val(pessoa.nome);
+                $('#logradouro_update').val(pessoa.endereco.logradouro);
+                $('#numero_update').val(pessoa.endereco.numero);
+                $('#complemento_update').val(pessoa.endereco.complemento);
+                $('#bairro_update').val(pessoa.endereco.bairro);
+                $('#cep_update').val(pessoa.endereco.cep);
+                $('#cidade_update').val(pessoa.endereco.cidade);
+                $('#estado_update').val(pessoa.endereco.estado);
+            });
+        });
+    }
+    $('document').ready(function () {
+        aplicarEventModal();
+        window.dataTable.on('datatable.page', function(page) {
+            aplicarEventModal();
+        });
+    });
+</script>
+</html>
