@@ -59,6 +59,17 @@ public class LancamentoController {
         return mv;
     }
 
+    @GetMapping("/detalhes/{id}")
+    public ModelAndView getdetalhes(@PathVariable Long id) {
+        var lancamento = repository.findFullLancamentoByID(id);
+        var mv = new ModelAndView("lancamento/detalhes-lancamento");
+//        mv.addObject("categorias", lancamento.getCategoria());
+//        mv.addObject("pessoas", lancamento.getPessoa());
+//        mv.addObject("lID", lancamento.getCodigo());
+        mv.addObject("lancamento", lancamento);
+        return mv;
+    }
+
     @RequestMapping("/getOne")
     @ResponseBody
     public Lancamento buscarPorId(Long codigo) {

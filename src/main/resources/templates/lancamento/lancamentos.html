@@ -58,8 +58,14 @@
                                 <td th:text="${lancamento.descricao}">Trident</td>
                                 <td th:text="${#temporals.format(lancamento.dataVencimento,'dd/MM/yyyy')}">Trident</td>
                                 <td th:text="${#temporals.format(lancamento.dataPagamento,'dd/MM/yyyy')}">Trident</td>
-                                <td th:if="${lancamento.tipo.name() == 'DESPESA'}"><span id="valorRed" class="valorRed" th:text="${lancamento.valor}"></span></td>
-                                <td th:unless="${lancamento.tipo.name() == 'DESPESA'}"><span id="valorBlue" class="valorBlue" th:text="${lancamento.valor}"></span></td>
+                                <td th:if="${lancamento.tipo.name() == 'DESPESA'}"><span id="valorRed" class="valorRed" th:text="${#numbers.formatDecimal(lancamento.valor,2,2,'COMMA')}"></span></td>
+                                <td th:unless="${lancamento.tipo.name() == 'DESPESA'}"><span id="valorBlue" class="valorBlue" th:text="${#numbers.formatDecimal(lancamento.valor,2,2,'COMMA')}"></span></td>
+                                <td>
+                                    <a type="button" class="nav-link " id="datalhe"
+                                       th:href="@{/lancamentos/detalhes/{codigo}(codigo=${lancamento.codigo})}">
+                                        <i style="color: #0D6094FF; font-size: 17px" class="bi bi-eye"></i>
+                                    </a>
+                                </td>
                                 <td>
                                     <a class="nav-link edit" id="edit" th:href="@{/lancamentos/{codigo}(codigo=${lancamento.codigo})}">
                                         <div class="sb-nav-link-icon">

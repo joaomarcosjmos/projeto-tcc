@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 @Configuration
-@Profile("test")
+@Profile("aaa")
 public class ConfigTest implements CommandLineRunner {
 
     @Autowired

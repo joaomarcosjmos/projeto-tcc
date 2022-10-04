@@ -1,0 +1,187 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/fragmentos :: headHeader('Pessoas')}"></head>
+
+<body class="sb-nav-fixed">
+<nav th:replace="~{fragment/fragmentos :: navi}"></nav>
+
+<div id="layoutSidenav">
+    <div th:replace="~{fragment/fragmentos :: layoutSidenav_nav}"></div>
+    <div id="layoutSidenav_content">
+        <main >
+            <div class="container-fluid px-4">
+                <h2 class="mt-4">Lançamento</h2>
+                <div class="card mb-4" style="margin-top: 10px">
+                    <div class="card-header" >
+                        <div class="row" >
+                            <div class="col-6 col-sm-6" >
+                                <i class="fas fa-table me-1"></i>
+                                Detalhes do Lançamento
+                            </div>
+                            <div class="col-6 col-sm-6" style="text-align: right"></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="form" th:action="@{/lancamentos}" method="post" th:object="${lancamento}">
+                            <div class="modal-body">
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <h4>Dados do Lançamento</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-4 oculte">
+                                        <div class="form-group">
+                                            <label for="codigo" class="form-label">codigo</label>
+                                            <span id="codigo" type="text" class="form-control" th:text="${lancamento.codigo}" ></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="vencimento" class="form-label">Vencimento</label>
+                                            <span id="vencimento" class="form-control" th:text="${#temporals.format(lancamento.dataVencimento, 'dd/MM/yyyy')}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label th:if="${lancamento.tipo.name() == 'RECEITA'}" class="form-label recebimento">Recebimento:</label>
+                                            <label th:unless="${lancamento.tipo.name() == 'RECEITA'}" class="form-label pagamento">Pagamento:</label>
+                                            <span id="recebimento"  class="form-control" th:text="${#temporals.format(lancamento.dataPagamento, 'dd/MM/yyyy')}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="logradouro_update" class="form-label">Descrição:</label>
+                                            <span type="text" id="logradouro_update" class="form-control" th:text="${lancamento.descricao}" ></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="numero_update" class="form-label">Valor:</label>
+                                            <span type="text" id="numero_update" class="form-control" th:text="${#numbers.formatDecimal(lancamento.valor,3,2,'COMMA')}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label for="bairro_update" class="form-label">Categoria:</label>
+                                            <span type="text" id="bairro_update" class="form-control" th:text="${lancamento.categoria.nome}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label for="observacao" class="form-label">Observação:</label>
+                                            <p type="text" id="observacao" th:text="${lancamento.observacao}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <hr style="width: 100%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <h4>Dados da Pessoa</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="cep_update" class="form-label">Pessoa:</label>
+                                            <span type="text" id="cep_update" class="form-control" th:text="${lancamento.pessoa.nome}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="logradouro" class="form-label">Logradouro:</label>
+                                            <span type="text" id="logradouro" class="form-control" th:text="${lancamento.pessoa.endereco.logradouro}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="numero" class="form-label">Número:</label>
+                                            <span type="text" id="numero" class="form-control" th:text="${lancamento.pessoa.endereco.numero}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="complemento" class="form-label">Complemento:</label>
+                                            <span type="text" id="complemento" class="form-control" th:text="${lancamento.pessoa.endereco.complemento}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="bairro" class="form-label">Bairro:</label>
+                                            <span type="text" id="bairro" class="form-control" th:text="${lancamento.pessoa.endereco.bairro}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="cep" class="form-label">CEP:</label>
+                                            <span type="text" id="cep" class="form-control" th:text="${lancamento.pessoa.endereco.cep}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="cidade" class="form-label">Cidade:</label>
+                                            <span type="text" id="cidade" class="form-control" th:text="${lancamento.pessoa.endereco.cidade}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="estado" class="form-label">Cidade:</label>
+                                            <span type="text" id="estado" class="form-control" th:text="${lancamento.pessoa.endereco.estado}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a th:href="@{/lancamentos}" id="submeter" class="btn btn-primary ">Retornar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<div th:replace="~{fragment/fragmentos :: scripts}"></div><!-- SCRIPTS JS -->
+</body>
+<script>
+    $(document).ready(function () {
+        // $('.pagamento').hide();
+        //
+        // $('#inlineButton1').click(function () {
+        //     $('.recebimento').show();
+        //     $('.pagamento').hide();
+        //     $('.btn-1').addClass("active");
+        //     $('.btn-2').removeClass("active");
+        // })
+        //
+        // $('#inlineButton2').click(function () {
+        //     $('.recebimento').hide();
+        //     $('.pagamento').show();
+        //     $('.btn-1').removeClass("active");
+        //     $('.btn-2').addClass("active");
+        //
+        // })
+    });
+</script>
+</html>

@@ -3,6 +3,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+/mariadb/*
+/mvnw
+/mvnw.cmd
 
 ### STS ###
 .apt_generated
