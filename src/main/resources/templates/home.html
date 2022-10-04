@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragment/fragmentos :: headHeader('Dashboard')}"></head>
+<head th:replace="~{fragment/fragmentos :: headHeader('Home')}"></head>
 
 <body class="sb-nav-fixed">
 <nav th:replace="~{fragment/fragmentos :: navi}"></nav>
@@ -16,7 +16,7 @@
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-area me-1"></i>
-                                    Ensaios por mês
+                                    Gastos por mês
                                 </div>
                                 <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                             </div>
@@ -25,7 +25,7 @@
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-bar me-1"></i>
-                                    Ensaios por semestre
+                                    Gastos por semestre
                                 </div>
                                 <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
                             </div>
@@ -34,7 +34,7 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
-                            Últimos Laudos
+                            Últimos lançamentos
                         </div>
                         <div class="card-body">
                             <table id="datatablesSimple" class="tabela">
